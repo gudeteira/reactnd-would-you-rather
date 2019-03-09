@@ -2,8 +2,12 @@ import {getUsers} from './users';
 import {getQuestions} from './questions';
 import {login} from './login';
 import {getData} from '../utils/api'
+import {load} from './loaded.js';
 
-const CURRENT_USER = 'johndoe';
+// tylermcginnis
+// johndoe
+// sarahedo
+const CURRENT_USER = 'tylermcginnis';
 
 export function handleLoadData() {
   return dispatch => {
@@ -11,6 +15,7 @@ export function handleLoadData() {
     return getData().then(({questions, users}) => {
         dispatch(getUsers(users));
         dispatch(getQuestions(questions, users[CURRENT_USER]));
+        dispatch(load());
       }
     );
   }

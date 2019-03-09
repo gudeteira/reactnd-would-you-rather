@@ -1,31 +1,47 @@
-import React, {Component} from 'react';
-import '../App.css';
-import {handleLoadData} from '../actions/shared';
+import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
-import StickyLayout from './Layout';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
+import {handleLoadData} from '../actions/shared';
+import '../App.css';
+import StickyLayout from './Layout';
+import NewQuestion from './NewQuestion';
+import NotFound from './NotFound';
+import Question from './Question';
 import QuestionList from './QuestionList';
+
 
 class App extends Component {
   componentDidMount() {
-    this.props.dispatch(handleLoadData())
+    this.props.dispatch(handleLoadData());
   }
 
   render() {
     return (
-      <StickyLayout>
-        {
-         this.props.loading === true ? null : <QuestionList/>
-        }
-      </StickyLayout>
+      <Router>
+        <StickyLayout>
+          {
+            this.props.loading === true
+              ? null :
+              <Fragment>
+                <Switch>
+                  <Route path='/' exact component={QuestionList}/>
+                  <Route path='/question/:id' component={Question}/>
+                  <Route path='/add' component={NewQuestion}/>
+                  <Route component={NotFound}/>
+                </Switch>
+              </Fragment>
+          }
+        </StickyLayout>
+      </Router>
     );
   }
 }
 
-function mapStateToProps({login}) {
+function mapStateToProps({loaded}) {
   return {
-    loading: login === null
-  }
+    loading: loaded !== true
+  };
 }
 
 export default connect(mapStateToProps)(App);

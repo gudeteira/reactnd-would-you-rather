@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {NavLink} from 'react-router-dom';
 import {Container, Menu, Visibility,} from 'semantic-ui-react';
 
 const menuStyle = {
@@ -6,7 +7,6 @@ const menuStyle = {
   borderRadius: 0,
   boxShadow: 'none',
   marginBottom: '1em',
-  marginTop: '4em',
   transition: 'box-shadow 0.5s ease, padding 0.5s ease',
 };
 
@@ -52,9 +52,15 @@ export default class StickyLayout extends Component {
           >
             <Container>
               <Menu.Item header>Would you rather</Menu.Item>
-              <Menu.Item as='a' active>Home</Menu.Item>
-              <Menu.Item as='a'>New Question</Menu.Item>
-              <Menu.Item as='a'>LeaderBoard</Menu.Item>
+              <Menu.Item as={NavLink} to='/' exact activeClassName='active'>
+                Home
+              </Menu.Item>
+              <Menu.Item as={NavLink} to='/add' activeClassName='active'>
+                New Question
+              </Menu.Item>
+              <Menu.Item as={NavLink} to='/leaderboard' activeClassName='active'>
+                LeaderBoard
+              </Menu.Item>
             </Container>
           </Menu>
 
