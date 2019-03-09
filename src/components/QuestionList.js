@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router-dom';
 import {Item, Tab} from 'semantic-ui-react';
 import Question from './Question';
 
@@ -7,7 +8,7 @@ import Question from './Question';
 class QuestionList extends Component {
 
   renderQuestions = (questions) => {
-    return (<Item.Group divided link>
+    return (<Item.Group divided>
       {questions.map(id => (
         <Question key={id} id={id}/>
       ))}
@@ -45,4 +46,4 @@ function mapStateToProps({questions}) {
   }
 }
 
-export default connect(mapStateToProps)(QuestionList);
+export default withRouter(connect(mapStateToProps)(QuestionList));
