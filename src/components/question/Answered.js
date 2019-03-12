@@ -1,6 +1,5 @@
 import React from 'react';
 import {Image, Item, Statistic} from 'semantic-ui-react';
-import '../../App.css';
 
 const Answered = (props) => {
   const {question, currentUser} = props;

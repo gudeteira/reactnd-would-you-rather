@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import {handleLoadData} from '../actions/shared';
-// import '../App.css';
 import StickyLayout from './Layout';
 import NewQuestion from './NewQuestion';
 import NotFound from './NotFound';
