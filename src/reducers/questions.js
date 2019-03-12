@@ -5,7 +5,7 @@ export default function questions(state = {}, action) {
     case GET_QUESTIONS:
       const {questions, user} = action;
       const qs = Object.keys(questions).map(id =>
-        Object.assign({}, questions[id], {answered: user.answers[id] !== undefined})
+        Object.assign({}, questions[id], {isAnswered: user.answers[id] !== undefined})
       ).reduce((questions, question) => {
         questions[question.id] = question;
         return questions;
@@ -24,7 +24,7 @@ export default function questions(state = {}, action) {
             ...state[action.id][action.answer],
             votes: state[action.id][action.answer].votes.concat([action.user])
           },
-          answered: true
+          isAnswered: true
         }
       };
     default:

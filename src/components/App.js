@@ -3,11 +3,11 @@ import {connect} from 'react-redux';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import {handleLoadData} from '../actions/shared';
-import '../App.css';
+// import '../App.css';
 import StickyLayout from './Layout';
 import NewQuestion from './NewQuestion';
 import NotFound from './NotFound';
-import Question from './Question';
+import QuestionDetails from './question/QuestionDetails';
 import QuestionList from './QuestionList';
 
 
@@ -26,7 +26,7 @@ class App extends Component {
               <Fragment>
                 <Switch>
                   <Route path='/' exact component={QuestionList}/>
-                  <Route path='/question/:id' component={Question}/>
+                  <Route path='/question/:id' component={QuestionDetails}/>
                   <Route path='/add' component={NewQuestion}/>
                   <Route component={NotFound}/>
                 </Switch>

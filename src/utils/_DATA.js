@@ -11,6 +11,14 @@ let users = {
     },
     questions: ['8xf0y6ziyjabvozdd253nd', 'am8ehyc8byjqgar0jgpub9']
   },
+  pedro: {
+    id: 'pedro',
+    name: 'Pedro Gude',
+    avatarURL: '/images/avatar_1.png',
+    answers: {
+    },
+    questions: []
+  },
   tylermcginnis: {
     id: 'tylermcginnis',
     name: 'Tyler McGinnis',

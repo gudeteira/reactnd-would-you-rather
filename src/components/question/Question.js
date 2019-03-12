@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {Button, Container, Item} from 'semantic-ui-react';
-import {handleAnswerQuestion} from '../actions/questions';
-import {formatDate} from '../utils/api';
+import {Icon, Item} from 'semantic-ui-react';
+import {handleAnswerQuestion} from '../../actions/questions';
+import {formatDate} from '../../utils/api';
 
 class Question extends Component {
 
@@ -13,27 +13,25 @@ class Question extends Component {
     dispatch(handleAnswerQuestion({user, id: question.id, answer}));
   };
 
+  summarize = text => {
+    const words = text.split(' ');
+    return `${words[0]} ${words[1]}...`;
+  };
+
   render() {
     const {question} = this.props;
+    console.log(question);
     return (
 
       <Item as={Link} to={`/question/${question.id}`}>
         <Item.Image src={question.avatar} alt={question.name}/>
         <Item.Content>
-          <Item.Header>{question.name} on {question.date} asks:</Item.Header>
+          <Item.Header>{question.name} on <Icon inverted color='blue' name='time'/>{question.date} asks:</Item.Header>
           <Item.Meta>
             <h3 className='cinema'>Would you rather</h3>
           </Item.Meta>
           <Item.Description>
-            <Container text style={{marginTop: '2em'}}>
-              <Button.Group as='span'>
-                <Button as='span' color='blue'
-                        onClick={e => this.handleVote(e, 'optionOne')}>{question.optionOne}</Button>
-                <Button.Or/>
-                <Button as='span' color='teal'
-                        onClick={e => this.handleVote(e, 'optionTwo')}>{question.optionTwo}</Button>
-              </Button.Group>
-            </Container>
+            {this.summarize(question.optionOne.text)} or {this.summarize(question.optionTwo.text)}
           </Item.Description>
         </Item.Content>
       </Item>
@@ -43,15 +41,15 @@ class Question extends Component {
 }
 
 export function formatQuestion(question, author = {}, login) {
-  const {id, optionOne, optionTwo, timestamp} = question;
+  const {timestamp} = question;
   const {name, avatarURL} = author;
+  console.log(question);
   return {
     name,
-    id,
     date: formatDate(timestamp),
     avatar: avatarURL,
-    optionOne: optionOne.text,
-    optionTwo: optionTwo.text
+    ...question
+
   };
 }
 

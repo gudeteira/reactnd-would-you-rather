@@ -7,7 +7,7 @@ import {load} from './loaded.js';
 // tylermcginnis
 // johndoe
 // sarahedo
-const CURRENT_USER = 'tylermcginnis';
+const CURRENT_USER = 'pedro';
 
 export function handleLoadData() {
   return dispatch => {
