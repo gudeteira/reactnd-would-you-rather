@@ -1,7 +1,8 @@
-import {answer} from '../utils/api';
+import {answer, saveQuestion} from '../utils/api';
 
 export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const ANSWER_QUESTION = 'ANSWER_QUESTION';
+export const ADD_QUESTION = 'ADD_QUESTION';
 
 export function getQuestions(questions, user) {
   return {
@@ -20,9 +21,25 @@ export function answerQuestion({user, id, answer}) {
   };
 }
 
+export function addQuestion(question) {
+  return {
+    type: ADD_QUESTION,
+    question
+  };
+}
+
 export function handleAnswerQuestion(data) {
   return dispatch => {
-    dispatch(answerQuestion(data));
-    answer({'authedUser': data.user, 'qid': data.id, 'answer': data.answer});
+    answer({'authedUser': data.user, 'qid': data.id, 'answer': data.answer})
+      .then(dispatch(answerQuestion(data)));
+  };
+}
+
+export function handleAddQuestion(data) {
+  return (dispatch, getState) => {
+    const {login} = getState();
+    return saveQuestion({author: login, ...data})
+      .then(question => dispatch(addQuestion(question)));
+
   };
 }

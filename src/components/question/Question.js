@@ -20,7 +20,6 @@ class Question extends Component {
 
   render() {
     const {question} = this.props;
-    console.log(question);
     return (
 
       <Item as={Link} to={`/question/${question.id}`}>
@@ -43,18 +42,15 @@ class Question extends Component {
 export function formatQuestion(question, author = {}, login) {
   const {timestamp} = question;
   const {name, avatarURL} = author;
-  console.log(question);
   return {
     name,
     date: formatDate(timestamp),
     avatar: avatarURL,
     ...question
-
   };
 }
 
 function mapStateToProps(state, props) {
-  console.log(state);
   const {questions, users, login} = state;
   let question = questions[props.id] || questions[props.match.params.id];
   return {
