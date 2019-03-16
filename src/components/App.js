@@ -5,6 +5,7 @@ import 'semantic-ui-css/semantic.min.css';
 import {handleLoadData} from '../actions/shared';
 import StickyLayout from './Layout';
 import Leaderboard from './Leaderboard';
+import Login from './Login';
 import NewQuestion from './question/NewQuestion';
 import NotFound from './NotFound';
 import QuestionDetails from './question/QuestionDetails';
@@ -26,6 +27,7 @@ class App extends Component {
               <Fragment>
                 <Switch>
                   <Route path='/' exact component={QuestionList}/>
+                  <Route path='/login'  component={Login}/>
                   <Route path='/question/:id' component={QuestionDetails}/>
                   <Route path='/add' component={NewQuestion}/>
                   <Route path='/leaderboard' component={Leaderboard}/>
