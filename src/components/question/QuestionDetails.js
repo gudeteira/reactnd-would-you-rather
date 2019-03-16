@@ -7,14 +7,10 @@ import {formatQuestion} from './Question';
 import UnAnswered from './UnAnswered';
 
 class QuestionDetails extends Component {
-  state = {
-    toDetails: false
-  };
 
   handleVote = (answer) => {
     const {dispatch, question, user} = this.props;
     dispatch(handleAnswerQuestion({user, id: question.id, answer}));
-    this.setState(() => ({toDetails: true}));
   };
 
   render() {
