@@ -45,8 +45,9 @@ class Login extends Component {
 
   render() {
     const {selectedUser, loggedIn} = this.state;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
     return (
-      loggedIn && selectedUser !== '' ? <Redirect to='/'/> : this.renderLoginForm()
+      loggedIn && selectedUser !== '' ? <Redirect to={from} /> : this.renderLoginForm()
     );
   }
 }
