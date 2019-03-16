@@ -29,6 +29,7 @@ class App extends Component {
                   <Route path='/question/:id' component={QuestionDetails}/>
                   <Route path='/add' component={NewQuestion}/>
                   <Route path='/leaderboard' component={Leaderboard}/>
+                  <Route path={'/404'} component={NotFound}/>
                   <Route component={NotFound}/>
                 </Switch>
               </Fragment>
