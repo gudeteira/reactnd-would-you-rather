@@ -1,11 +1,12 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {NavLink} from 'react-router-dom';
 
-export default class NotFound extends Component {
-  render() {
-    return (
-      <div>
-        Not Found
-      </div>
-    );
-  }
-}
+const NotFound = () => (
+  <div>
+    <h3>It seems that what you are looking for is not here!</h3>
+    Go back to <NavLink to='/'>Home</NavLink>
+
+  </div>
+);
+
+export default NotFound;
