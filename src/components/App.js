@@ -4,7 +4,8 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 import {handleLoadData} from '../actions/shared';
 import StickyLayout from './Layout';
-import NewQuestion from './NewQuestion';
+import Leaderboard from './Leaderboard';
+import NewQuestion from './question/NewQuestion';
 import NotFound from './NotFound';
 import QuestionDetails from './question/QuestionDetails';
 import QuestionList from './QuestionList';
@@ -27,6 +28,7 @@ class App extends Component {
                   <Route path='/' exact component={QuestionList}/>
                   <Route path='/question/:id' component={QuestionDetails}/>
                   <Route path='/add' component={NewQuestion}/>
+                  <Route path='/leaderboard' component={Leaderboard}/>
                   <Route component={NotFound}/>
                 </Switch>
               </Fragment>
