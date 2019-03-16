@@ -1,21 +1,26 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 import {login} from '../actions/login';
+import {getMyQuestions} from '../actions/questions';
 
 
 class Login extends Component {
   state = {
-    selectedUser: ''
+    selectedUser: '',
+    loggedIn: false
   };
 
   handleLogin = (e) => {
     e.preventDefault();
     if (this.state.selectedUser !== '') {
+      const {questions, users} = this.props;
       this.props.dispatch(login(this.state.selectedUser));
+      this.props.dispatch(getMyQuestions(questions, users[this.state.selectedUser]));
+      this.setState(() => ({loggedIn: true}));
     } else {
       alert('you must select an user');
     }
-
   };
 
   handleChangeUser = (e) => {
@@ -24,25 +29,29 @@ class Login extends Component {
     this.setState(() => ({selectedUser}));
   };
 
-  render() {
-    const {users} = this.props;
-    return (
-      <div>
-        <form onSubmit={this.handleLogin}>
-          <h1>Sign in to Would you rather</h1>
-          <select placeholder='Select an user' onChange={this.handleChangeUser}>
-            <option value=''>Select an user</option>
-            {users.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
-          </select>
-          <button type='submit'>Sign in</button>
-        </form>
+  renderLoginForm = () => {
+    const {theUsers} = this.props;
+    return <div>
+      <form onSubmit={this.handleLogin}>
+        <h1>Sign in to Would you rather</h1>
+        <select placeholder='Select an user' onChange={this.handleChangeUser}>
+          <option value=''>Select an user</option>
+          {theUsers.map(u => <option key={u.id} value={u.id}>{u.name}</option>)}
+        </select>
+        <button type='submit'>Sign in</button>
+      </form>
+    </div>;
+  };
 
-      </div>
+  render() {
+    const {selectedUser, loggedIn} = this.state;
+    return (
+      loggedIn && selectedUser !== '' ? <Redirect to='/'/> : this.renderLoginForm()
     );
   }
 }
 
-function mapStateToProps({users}) {
+function mapStateToProps({users, questions}) {
   const theUsers = Object.keys(users).map(userId => {
     return {
       id: userId,
@@ -50,7 +59,9 @@ function mapStateToProps({users}) {
     };
   });
   return {
-    users: theUsers
+    theUsers,
+    questions,
+    users
   };
 }
 
