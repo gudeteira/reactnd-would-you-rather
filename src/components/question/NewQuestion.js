@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
+import {Button, Form, Segment} from 'semantic-ui-react';
 import {handleAddQuestion} from '../../actions/questions';
 
 class NewQuestion extends Component {
@@ -27,21 +28,19 @@ class NewQuestion extends Component {
       return <Redirect to="/"/>;
     }
     return (
-
-      <div>
-        Would you rather...
-        <form onSubmit={this.handleFormSubmit}>
-          <input type='text' placeholder='Enter option One' name='optionOneText' value={optionOneText}
-                 onChange={this.handleChangeText}/>
-          Or
-          <input type='text' placeholder='Enter option Two' name='optionTwoText' value={optionTwoText}
-                 onChange={this.handleChangeText}/>
-
-          <button className='btn' type='submit' disabled={optionOneText === '' || optionTwoText === ''}>
-            Submit
-          </button>
-        </form>
-      </div>
+      <Segment>
+        <h3>Would you rather...</h3>
+        <Form onSubmit={this.handleFormSubmit}>
+          <Form.Group widths={2}>
+            <Form.Field required label='Option one' control='input' placeholder='Enter option One' name='optionOneText'
+                        onChange={this.handleChangeText}/>
+            <Form.Field required label='Option two' control='input' placeholder='Enter option Two' name='optionTwoText'
+                        onChange={this.handleChangeText}/>
+          </Form.Group>
+          <Button type='submit'
+                  disabled={optionOneText === '' || optionTwoText === ''}>Submit</Button>
+        </Form>
+      </Segment>
     );
   }
 }

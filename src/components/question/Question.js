@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import {Icon, Item} from 'semantic-ui-react';
+import {Card, Icon, Image} from 'semantic-ui-react';
 import {handleAnswerQuestion} from '../../actions/questions';
 import {formatDate} from '../../utils/api';
 
@@ -15,26 +15,23 @@ class Question extends Component {
 
   summarize = text => {
     const words = text.split(' ');
-    return `${words[0]} ${words[1]}...`;
+    return `${words[0]} ${words[1] || ''}...`;
   };
 
   render() {
     const {question} = this.props;
     return (
-
-      <Item as={Link} to={`/question/${question.id}`}>
-        <Item.Image src={question.avatar} alt={question.name}/>
-        <Item.Content>
-          <Item.Header>{question.name} on <Icon inverted color='blue' name='time'/>{question.date} asks:</Item.Header>
-          <Item.Meta>
+      <Card as={Link} to={`/question/${question.id}`}>
+        <Card.Content>
+          <Image floated='left' src={question.avatar} alt={question.name} avatar/>
+          <Card.Header>{question.name} asks:</Card.Header>
+          <Card.Meta>on <Icon name='calendar alternate outline'/>{question.date}</Card.Meta>
+          <Card.Description>
             <h3 className='cinema'>Would you rather</h3>
-          </Item.Meta>
-          <Item.Description>
             {this.summarize(question.optionOne.text)} or {this.summarize(question.optionTwo.text)}
-          </Item.Description>
-        </Item.Content>
-      </Item>
-
+          </Card.Description>
+        </Card.Content>
+      </Card>
     );
   }
 }

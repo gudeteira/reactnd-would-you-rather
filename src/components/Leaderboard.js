@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {Item} from 'semantic-ui-react';
 import UserDetails from './UserDetails';
 
 
@@ -7,15 +8,11 @@ class Leaderboard extends Component {
   render() {
     const {users} = this.props;
     return (
-      <div>
-        Leaderboard
-
-          {users.map(u => (
-            <UserDetails key={u} user={u} />
-          ))}
-
-
-      </div>
+      <Item.Group divided>
+        {
+          users.map((u, index) => <UserDetails key={u} user={u} ranking={index + 1}/>)
+        }
+      </Item.Group>
     );
   }
 }

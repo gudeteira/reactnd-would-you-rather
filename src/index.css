@@ -1,0 +1,8 @@
+.no-border {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.ui.secondary.pointing.menu .item {
+    align-self: center !important;
+}

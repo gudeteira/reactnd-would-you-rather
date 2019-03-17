@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {NavLink} from 'react-router-dom';
-import {Container, Menu, Visibility,} from 'semantic-ui-react';
+import {Container, Divider, Dropdown, Icon, Image, Menu, Segment, Visibility} from 'semantic-ui-react';
 
 const menuStyle = {
-  border: 'none',
   borderRadius: 0,
-  boxShadow: 'none',
-  marginBottom: '1em',
   transition: 'box-shadow 0.5s ease, padding 0.5s ease',
+  backgroundColor: '#fff',
+  border: '1px solid #ddd',
+  boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)',
 };
 
 const fixedMenuStyle = {
@@ -17,7 +18,7 @@ const fixedMenuStyle = {
 };
 
 
-export default class StickyLayout extends Component {
+class Layout extends Component {
   state = {
     menuFixed: false,
     overlayFixed: false,
@@ -29,17 +30,15 @@ export default class StickyLayout extends Component {
 
   render() {
     const {menuFixed} = this.state;
+    const {name, avatarURL} = this.props.user;
+    const trigger = (
+      <span>
+       {name} <Image avatar src={avatarURL}/>
+      </span>
+    );
 
     return (
-
       <div>
-        <style>{`html, body {
-            background: #f7f7f7 !important;
-          }`}</style>
-
-        {/* Attaching the top menu is a simple operation, we only switch `fixed` prop and add another style if it has
-            gone beyond the scope of visibility
-          */}
         <Visibility
           onBottomPassed={this.stickTopMenu}
           onBottomVisible={this.unStickTopMenu}
@@ -49,29 +48,58 @@ export default class StickyLayout extends Component {
             borderless
             fixed={menuFixed ? 'top' : undefined}
             style={menuFixed ? fixedMenuStyle : menuStyle}
+            secondary
+            pointing
           >
             <Container>
-              <Menu.Item header>Would you rather</Menu.Item>
-              <Menu.Item as={NavLink} to='/' exact activeClassName='active'>
-                Home
+              <Menu.Item>
+                <Image size='tiny' src='/images/logo.svg'/>
               </Menu.Item>
-              <Menu.Item as={NavLink} to='/add' activeClassName='active'>
-                New Question
-              </Menu.Item>
-              <Menu.Item as={NavLink} to='/leaderboard' activeClassName='active'>
-                LeaderBoard
-              </Menu.Item>
+              <Menu.Item header><h3>Would you rather</h3></Menu.Item>
+
+              <Menu.Menu position='right'>
+                <Menu.Item as={NavLink} to='/' exact activeClassName='active' color='teal'>
+                  Home
+                </Menu.Item>
+                <Menu.Item as={NavLink} to='/add' activeClassName='active' color='blue'>
+                  New Question
+                </Menu.Item>
+                <Menu.Item as={NavLink} to='/leaderboard' activeClassName='active' color='violet'>
+                  LeaderBoard
+                </Menu.Item>
+                <Dropdown trigger={trigger} icon={null} pointing className='link item'>
+                  <Dropdown.Menu>
+                    <Dropdown.Item as={NavLink } to='logout'>
+
+                        <Icon name='sign out'/>
+                        Sign out
+
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Menu.Menu>
             </Container>
           </Menu>
-
         </Visibility>
-        <Container>
-          {
-            this.props.children
-          }
+        <Divider hidden/>
+        <Container className='no-border'>
+          <Segment className='no-border'>
+            {
+              this.props.children
+            }
+          </Segment>
         </Container>
 
       </div>
     );
   }
 }
+
+function mapStateToProps({users, login}) {
+  const user = users[login];
+  return {
+    user
+  };
+}
+
+export default connect(mapStateToProps)(Layout);

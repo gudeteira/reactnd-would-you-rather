@@ -1,10 +1,10 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
-import {BrowserRouter as Router, Link, Route, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 
 import {handleLoadData} from '../actions/shared';
-import StickyLayout from './Layout';
+import '../index.css';
 import Leaderboard from './Leaderboard';
 import Login from './Login';
 import Logout from './Logout';
@@ -21,29 +21,25 @@ class App extends Component {
   }
 
   render() {
-    const {isAuthenticated, currentUser} = this.props;
+    const {isAuthenticated} = this.props;
     return (
       <Router>
-        <StickyLayout>
-          {
-            this.props.loading === true
-              ? null :
-              <Fragment>
-                <Link to='/logout'>Sign out</Link>
-                {currentUser && <span>Hello {currentUser.name}</span>}
-                <Switch>
-                  <PrivateRoute path='/' exact component={QuestionList} isAuthenticated={isAuthenticated}/>
-                  <Route path='/login' component={Login}/>
-                  <Route path='/logout' component={Logout}/>
-                  <PrivateRoute path='/question/:id' component={QuestionDetails} isAuthenticated={isAuthenticated}/>
-                  <PrivateRoute path='/add' component={NewQuestion} isAuthenticated={isAuthenticated}/>
-                  <PrivateRoute path='/leaderboard' component={Leaderboard} isAuthenticated={isAuthenticated}/>
-                  <PrivateRoute path={'/404'} component={NotFound} isAuthenticated={isAuthenticated}/>
-                  <Route component={NotFound}/>
-                </Switch>
-              </Fragment>
-          }
-        </StickyLayout>
+        {
+          this.props.loading === true
+            ? null :
+            <Fragment>
+              <Switch>
+                <PrivateRoute path='/' exact component={QuestionList} isAuthenticated={isAuthenticated}/>
+                <Route path='/login' component={Login}/>
+                <Route path='/logout' component={Logout}/>
+                <PrivateRoute path='/question/:id' component={QuestionDetails} isAuthenticated={isAuthenticated}/>
+                <PrivateRoute path='/add' component={NewQuestion} isAuthenticated={isAuthenticated}/>
+                <PrivateRoute path='/leaderboard' component={Leaderboard} isAuthenticated={isAuthenticated}/>
+                <PrivateRoute path={'/404'} component={NotFound} isAuthenticated={isAuthenticated}/>
+                <Route component={NotFound}/>
+              </Switch>
+            </Fragment>
+        }
       </Router>
     );
   }

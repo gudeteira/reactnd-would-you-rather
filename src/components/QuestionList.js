@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
-import {Item, Tab, Message} from 'semantic-ui-react';
+import {Card, Message, Tab} from 'semantic-ui-react';
 import Question from './question/Question';
 
 
@@ -11,11 +11,11 @@ class QuestionList extends Component {
     return (
       questions.length === 0
         ? emptyMessage
-        : <Item.Group divided>
+        : <Card.Group>
           {questions.map(id => (
             <Question key={id} id={id}/>
           ))}
-        </Item.Group>
+        </Card.Group>
     );
   };
 
@@ -30,17 +30,19 @@ class QuestionList extends Component {
     return [
       {
         menuItem: 'Unanswered questions',
-        render: () => <Tab.Pane attached={true}>{this.renderQuestions(unAnsweredQuestions, this.emptyMessageUnanswered())}</Tab.Pane>
+        render: () => <Tab.Pane
+          as='div'>{this.renderQuestions(unAnsweredQuestions, this.emptyMessageUnanswered())}</Tab.Pane>
       },
       {
         menuItem: 'Answered',
-        render: () => <Tab.Pane attached={true}>{this.renderQuestions(answeredQuestions, this.answeredEmptyMessage())}</Tab.Pane>
+        render: () => <Tab.Pane
+          as='div'>{this.renderQuestions(answeredQuestions, this.answeredEmptyMessage())}</Tab.Pane>
       },
     ];
   }
 
   render() {
-    return (<Tab menu={{text: true , pointing: true}} panes={this.renderPanes(this.props)}/>);
+    return (<Tab menu={{secondary: true}} panes={this.renderPanes(this.props)}/>);
   }
 }
 
