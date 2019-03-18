@@ -67,7 +67,7 @@ class Layout extends Component {
                 <Menu.Item as={NavLink} to='/leaderboard' activeClassName='active' color='violet'>
                   LeaderBoard
                 </Menu.Item>
-                <Dropdown trigger={trigger} icon={null} pointing className='link item'>
+                <Dropdown trigger={trigger} icon={null} pointing className='link item profile-trigger'>
                   <Dropdown.Menu>
                     <Dropdown.Item as={NavLink } to='logout'>
 

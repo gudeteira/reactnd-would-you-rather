@@ -6,3 +6,7 @@
 .ui.secondary.pointing.menu .item {
     align-self: center !important;
 }
+
+.profile-trigger{
+    max-height: 40px;
+}
