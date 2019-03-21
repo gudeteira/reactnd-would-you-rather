@@ -1,3 +1,4 @@
+import {loadingBarReducer} from 'react-redux-loading';
 import {combineReducers} from 'redux';
 import {LOGOUT} from '../actions/login';
 import loaded from './loaded';
@@ -9,7 +10,8 @@ const appReducer = combineReducers({
   login,
   users,
   questions,
-  loaded
+  loaded,
+  loadingBar: loadingBarReducer
 });
 
 export default (state, action) => {
