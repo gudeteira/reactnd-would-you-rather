@@ -76,17 +76,17 @@ class SignUp extends Component {
               && <Label basic color='red' pointing='below'>{this.state.usernameError}</Label>
             }
             <Form.Field required label='Username' control='input' placeholder='Your username'
-                        name='username' autoComplete='false'
+                        name='username' autoComplete='off'
                         onChange={this.handleChangeText}/>
 
             <Form.Field required label='First name' control='input' placeholder='First name'
-                        name='firstName' autoComplete='false'
+                        name='firstName' autoComplete='off'
                         onChange={this.handleChangeText}/>
             <Form.Field required label='Last name' control='input' placeholder='Last name'
-                        name='lastName' autoComplete='false'
+                        name='lastName' autoComplete='off'
                         onChange={this.handleChangeText}/>
-            <Form.Field required label='Password' control='input'
-                        name='password' autoComplete='false'
+            <Form.Field required label='Password' control='input' type='password'
+                        name='password' autoComplete='off'
                         onChange={this.handleChangeText}/>
           </Form>
         </Modal.Content>
