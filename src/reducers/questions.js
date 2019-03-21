@@ -1,4 +1,11 @@
-import {ADD_QUESTION, ANSWER_QUESTION, GET_MY_QUESTIONS, GET_QUESTIONS} from '../actions/questions';
+import {
+  ADD_QUESTION,
+  ANSWER_QUESTION,
+  GET_MY_QUESTIONS,
+  GET_QUESTIONS,
+  REMOVE_ANSWER,
+  REMOVE_QUESTION
+} from '../actions/questions';
 
 export default function questions(state = {}, action) {
   switch (action.type) {
@@ -32,6 +39,18 @@ export default function questions(state = {}, action) {
           isAnswered: true
         }
       };
+    case REMOVE_ANSWER:
+      return {
+        ...state,
+        [action.id]: {
+          ...state[action.id],
+          [action.answer]: {
+            ...state[action.id][action.answer],
+            votes: state[action.id][action.answer].votes.filter(u => u !== action.user)
+          },
+          isAnswered: false
+        }
+      };
     case  ADD_QUESTION:
       return {
         ...state,
@@ -39,6 +58,15 @@ export default function questions(state = {}, action) {
           ...action.question,
           isAnswered: false
         }
+      };
+    case  REMOVE_QUESTION:
+      return {
+        ...Object.keys(state).reduce((result, q) => {
+          if (q !== action.question.id) {
+            result[q] = state[q];
+          }
+          return result;
+        }, {})
       };
     default:
       return state;

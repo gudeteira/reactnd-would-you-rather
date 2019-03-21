@@ -159,6 +159,10 @@ export function _saveQuestion (question) {
   return new Promise((res, rej) => {
     const authedUser = question.author;
     const formattedQuestion = formatQuestion(question);
+    if (!users[authedUser]) {
+      rej(JSON.stringify({message: `User [${authedUser}] not found in backend`, question: formattedQuestion}))
+      return false
+    }
 
     setTimeout(() => {
       questions = {
@@ -182,6 +186,10 @@ export function _saveQuestion (question) {
 export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
   return new Promise((res, rej) => {
     setTimeout(() => {
+      if (!users[authedUser]) {
+        rej(JSON.stringify({message: `User [${authedUser}] not found in backend`}))
+        return false
+      }
       users = {
         ...users,
         [authedUser]: {
