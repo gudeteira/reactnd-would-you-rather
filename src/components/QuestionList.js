@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+
 import {Card, Message, Tab} from 'semantic-ui-react';
 import {getMyQuestions} from '../actions/questions';
 import Question from './question/Question';
@@ -10,10 +10,11 @@ class QuestionList extends Component {
   state = {
     loaded: false
   };
+
   componentDidMount() {
     const {dispatch, questions, user} = this.props;
     dispatch(getMyQuestions(questions, user));
-    this.setState(()=> ({
+    this.setState(() => ({
       loaded: true
     }));
   }
@@ -71,4 +72,4 @@ function mapStateToProps({questions, users, login}) {
   };
 }
 
-export default withRouter(connect(mapStateToProps)(QuestionList));
+export default connect(mapStateToProps)(QuestionList);
