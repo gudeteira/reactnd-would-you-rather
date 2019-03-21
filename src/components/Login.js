@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import {Button, Divider, Dropdown, Form, Grid, Header, Image, Label, Message, Segment} from 'semantic-ui-react';
 import {login} from '../actions/login';
-import {getMyQuestions} from '../actions/questions';
 import {addUser} from '../actions/users';
 import SignUp from './SignUp';
 
@@ -25,9 +24,7 @@ class Login extends Component {
   };
 
   login = () => {
-    const {questions, users} = this.props;
     this.props.dispatch(login(this.state.selectedUser));
-    this.props.dispatch(getMyQuestions(questions, users[this.state.selectedUser]));
     this.setState(() => ({loggedIn: true}));
   };
 
@@ -42,7 +39,7 @@ class Login extends Component {
   };
 
   existsUser = username => {
-    return this.props.users[username] !== undefined;
+    return this.props.logins[username] !== undefined;
   };
 
   handleCloseSignUpForm = () => {
@@ -57,7 +54,7 @@ class Login extends Component {
   };
 
   optionItems = () => {
-    return this.props.theUsers.map(u =>
+    return this.props.logins.map(u =>
       ({
         key: u.id,
         text: u.name,
@@ -116,8 +113,8 @@ class Login extends Component {
   }
 }
 
-function mapStateToProps({users, questions}) {
-  const theUsers = Object.keys(users).map(userId => {
+function mapStateToProps({users}) {
+  const logins = Object.keys(users).map(userId => {
     return {
       id: userId,
       name: users[userId].name,
@@ -125,9 +122,7 @@ function mapStateToProps({users, questions}) {
     };
   });
   return {
-    theUsers,
-    questions,
-    users
+    logins
   };
 }
 
