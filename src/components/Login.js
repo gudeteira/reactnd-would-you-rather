@@ -1,33 +1,59 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
-import {Button, Divider, Dropdown, Form, Grid, Header, Image, Segment, Label} from 'semantic-ui-react';
+import {Button, Divider, Dropdown, Form, Grid, Header, Image, Label, Message, Segment} from 'semantic-ui-react';
 import {login} from '../actions/login';
 import {getMyQuestions} from '../actions/questions';
-
+import {addUser} from '../actions/users';
+import SignUp from './SignUp';
 
 class Login extends Component {
   state = {
     selectedUser: '',
     loggedIn: false,
-    error: false
+    error: false,
+    showSignUpForm: false
   };
 
   handleLogin = (e) => {
     e.preventDefault();
     if (this.state.selectedUser !== '') {
-      const {questions, users} = this.props;
-      this.props.dispatch(login(this.state.selectedUser));
-      this.props.dispatch(getMyQuestions(questions, users[this.state.selectedUser]));
-      this.setState(() => ({loggedIn: true}));
+      this.login();
     } else {
       this.setState(() => ({error: true}));
     }
   };
 
+  login = () => {
+    const {questions, users} = this.props;
+    this.props.dispatch(login(this.state.selectedUser));
+    this.props.dispatch(getMyQuestions(questions, users[this.state.selectedUser]));
+    this.setState(() => ({loggedIn: true}));
+  };
+
   handleChangeUser = (e, {value}) => {
     e.preventDefault();
     this.setState(() => ({selectedUser: value, error: value === ''}));
+  };
+
+  signUp = e => {
+    e.preventDefault();
+    this.setState(() => ({showSignUpForm: true}));
+  };
+
+  existsUser = username => {
+    return this.props.users[username] !== undefined;
+  };
+
+  handleCloseSignUpForm = () => {
+    this.setState(() => ({showSignUpForm: false}));
+  };
+
+  handleSignUp = (newUser) => {
+    this.props.dispatch(addUser(newUser));
+    this.setState({showSignUpForm: false, selectedUser: newUser.username, error: false});
+    this.props.dispatch(login(newUser.username));
+    this.setState({loggedIn: true});
   };
 
   optionItems = () => {
@@ -55,7 +81,7 @@ class Login extends Component {
               <Segment>
                 <Dropdown options={options}
                           onChange={this.handleChangeUser}
-                          placeholder='Select an user'
+                          placeholder='Sign in as ...'
                           icon='user' className='icon'
                           labeled fluid selection pointing button
                 />
@@ -69,8 +95,15 @@ class Login extends Component {
                 </Button>
               </Segment>
             </Form>
+            <Message>
+              New to us? <a href='/signup' onClick={this.signUp}>Sign Up</a>
+            </Message>
           </Grid.Column>
         </Grid>
+        <SignUp open={this.state.showSignUpForm}
+                close={this.handleCloseSignUpForm}
+                existsUser={this.existsUser}
+                handleSignUp={this.handleSignUp}/>
       </div>);
   };
 
