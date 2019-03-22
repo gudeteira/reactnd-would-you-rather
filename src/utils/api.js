@@ -1,4 +1,4 @@
-import {_getQuestions, _getUsers, _saveQuestion, _saveQuestionAnswer} from './_DATA';
+import {_getQuestions, _getUsers, _saveQuestion, _saveQuestionAnswer, _saveUser} from './_DATA';
 
 export function getData() {
   return Promise.all([_getQuestions(), _getUsers()])
@@ -14,6 +14,10 @@ export function saveQuestion(question) {
 
 export function answer(data) {
   return _saveQuestionAnswer(data);
+}
+
+export function saveUser(newUser) {
+  return _saveUser(newUser);
 }
 
 export function formatDate(timestamp) {

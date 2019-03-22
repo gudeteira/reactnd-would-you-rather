@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 import {Button, Divider, Dropdown, Form, Grid, Header, Image, Label, Message, Segment} from 'semantic-ui-react';
 import {login} from '../actions/login';
-import {addUser} from '../actions/users';
+import {handleAddUser} from '../actions/users';
 import SignUp from './SignUp';
 
 class Login extends Component {
@@ -47,10 +47,8 @@ class Login extends Component {
   };
 
   handleSignUp = (newUser) => {
-    this.props.dispatch(addUser(newUser));
-    this.setState({showSignUpForm: false, selectedUser: newUser.username, error: false});
-    this.props.dispatch(login(newUser.username));
-    this.setState({loggedIn: true});
+    this.props.dispatch(handleAddUser(newUser));
+    this.setState(() => ({showSignUpForm: false, error: false}));
   };
 
   optionItems = () => {

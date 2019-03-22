@@ -12,8 +12,6 @@ export default function users(state = {}, action) {
       return {
         ...state,
         [action.user.username]: {
-          answers: {},
-          questions: [],
           ...action.user
         }
       };
