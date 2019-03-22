@@ -59,8 +59,7 @@ class SignUp extends Component {
       username,
       id: username,
       name: `${firstName} ${lastName}`,
-      password,
-      avatarURL: '/images/avatar_1.png'
+      password
     });
   };
 
