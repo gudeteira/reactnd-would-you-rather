@@ -1,3 +1,4 @@
+import {hideLoading, showLoading} from 'react-redux-loading';
 import {answer, saveQuestion} from '../utils/api';
 import {error} from './error';
 
@@ -81,16 +82,22 @@ function parseError(e) {
 
 export function handleAddQuestion(data) {
   return (dispatch, getState) => {
+    dispatch(showLoading());
     const {login} = getState();
     return saveQuestion({author: login, ...data})
-      .then(question => dispatch(addQuestion(question)))
+      .then(question => {
+        dispatch(addQuestion(question));
+        dispatch(hideLoading());
+      })
       .catch(e => {
         console.warn('Error in handleAddQuestion: ', e);
         const errorData = parseError(e);
         if (errorData) {
           dispatch(error({action: ADD_QUESTION, ...errorData}));
           dispatch(addQuestion(errorData.question));
+
         }
       });
+
   };
 }

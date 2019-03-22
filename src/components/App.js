@@ -1,8 +1,8 @@
 import React, {Component, Fragment} from 'react';
 import {connect} from 'react-redux';
+import LoadingBar from 'react-redux-loading';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
-
 import {handleLoadData} from '../actions/shared';
 import '../index.css';
 import Leaderboard from './Leaderboard';
@@ -25,20 +25,21 @@ class App extends Component {
     return (
       <Router>
         {
-          this.props.loading === true
-            ? null :
-            <Fragment>
-              <Switch>
-                <PrivateRoute path='/' exact component={QuestionList} isAuthenticated={isAuthenticated}/>
-                <Route path='/login' component={Login}/>
-                <Route path='/logout' component={Logout}/>
-                <PrivateRoute path='/question/:id' component={QuestionDetails} isAuthenticated={isAuthenticated}/>
-                <PrivateRoute path='/add' component={NewQuestion} isAuthenticated={isAuthenticated}/>
-                <PrivateRoute path='/leaderboard' component={Leaderboard} isAuthenticated={isAuthenticated}/>
-                <PrivateRoute path={'/404'} component={NotFound} isAuthenticated={isAuthenticated}/>
-                <Route component={NotFound}/>
-              </Switch>
-            </Fragment>
+          // this.props.loading === true
+          //   ? null :
+          <Fragment>
+            <LoadingBar/>
+            <Switch>
+              <PrivateRoute path='/' exact component={QuestionList} isAuthenticated={isAuthenticated}/>
+              <Route path='/login' component={Login}/>
+              <Route path='/logout' component={Logout}/>
+              <PrivateRoute path='/question/:id' component={QuestionDetails} isAuthenticated={isAuthenticated}/>
+              <PrivateRoute path='/add' component={NewQuestion} isAuthenticated={isAuthenticated}/>
+              <PrivateRoute path='/leaderboard' component={Leaderboard} isAuthenticated={isAuthenticated}/>
+              <PrivateRoute path={'/404'} component={NotFound} isAuthenticated={isAuthenticated}/>
+              <Route component={NotFound}/>
+            </Switch>
+          </Fragment>
         }
       </Router>
     );
