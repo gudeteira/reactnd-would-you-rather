@@ -2,16 +2,9 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {Card, Icon, Image} from 'semantic-ui-react';
-import {handleAnswerQuestion} from '../../actions/questions';
 import {formatDate} from '../../utils/api';
 
 class Question extends Component {
-
-  handleVote = (e, answer) => {
-    e.preventDefault();
-    const {dispatch, question, user} = this.props;
-    dispatch(handleAnswerQuestion({user, id: question.id, answer}));
-  };
 
   summarize = text => {
     const words = text.split(' ');

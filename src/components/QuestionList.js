@@ -1,11 +1,23 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+
 import {Card, Message, Tab} from 'semantic-ui-react';
+import {getMyQuestions} from '../actions/questions';
 import Question from './question/Question';
 
-
 class QuestionList extends Component {
+
+  state = {
+    loaded: false
+  };
+
+  componentDidMount() {
+    const {dispatch, questions, user} = this.props;
+    dispatch(getMyQuestions(questions, user));
+    this.setState(() => ({
+      loaded: true
+    }));
+  }
 
   renderQuestions = (questions, emptyMessage) => {
     return (
@@ -25,7 +37,14 @@ class QuestionList extends Component {
   answeredEmptyMessage = () => <Message info header='You have not answered any questions yet!'
                                         content='Maybe you want to answer some question.'/>;
 
-  renderPanes({unAnsweredQuestions, answeredQuestions}) {
+  sortQuestions = (keys, questions) => {
+    return keys.sort((a, b) => questions[b].timestamp - questions[a].timestamp);
+  };
+
+  renderPanes() {
+    const {questions} = this.props;
+    const answeredQuestions = this.sortQuestions(Object.keys(questions).filter(q => questions[q].isAnswered), questions);
+    const unAnsweredQuestions = this.sortQuestions(Object.keys(questions).filter(q => !questions[q].isAnswered), questions);
 
     return [
       {
@@ -42,21 +61,15 @@ class QuestionList extends Component {
   }
 
   render() {
-    return (<Tab menu={{secondary: true}} panes={this.renderPanes(this.props)}/>);
+    return (<Tab menu={{secondary: true}} panes={this.renderPanes()}/>);
   }
 }
 
-function mapStateToProps({questions}) {
-  const answeredQuestions = sortQuestions(Object.keys(questions).filter(q => questions[q].isAnswered), questions);
-  const unAnsweredQuestions = sortQuestions(Object.keys(questions).filter(q => !questions[q].isAnswered), questions);
+function mapStateToProps({questions, users, login}) {
   return {
-    unAnsweredQuestions,
-    answeredQuestions
+    questions,
+    user: users[login]
   };
-
-  function sortQuestions(keys, questions) {
-    return keys.sort((a, b) => questions[b].timestamp - questions[a].timestamp);
-  }
 }
 
-export default withRouter(connect(mapStateToProps)(QuestionList));
+export default connect(mapStateToProps)(QuestionList);

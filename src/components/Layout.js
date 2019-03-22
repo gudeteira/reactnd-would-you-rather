@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {NavLink} from 'react-router-dom';
 import {Container, Divider, Dropdown, Icon, Image, Menu, Segment, Visibility} from 'semantic-ui-react';
+import Notification from './Notification';
 
 const menuStyle = {
   borderRadius: 0,
@@ -69,10 +70,10 @@ class Layout extends Component {
                 </Menu.Item>
                 <Dropdown trigger={trigger} icon={null} pointing className='link item profile-trigger'>
                   <Dropdown.Menu>
-                    <Dropdown.Item as={NavLink } to='logout'>
+                    <Dropdown.Item as={NavLink} to='logout'>
 
-                        <Icon name='sign out'/>
-                        Sign out
+                      <Icon name='sign out'/>
+                      Sign out
 
                     </Dropdown.Item>
                   </Dropdown.Menu>
@@ -90,6 +91,7 @@ class Layout extends Component {
           </Segment>
         </Container>
 
+        <Notification/>
       </div>
     );
   }
