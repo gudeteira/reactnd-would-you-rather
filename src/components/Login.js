@@ -1,22 +1,23 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
-import {Button, Divider, Dropdown, Form, Grid, Header, Image, Label, Message, Segment} from 'semantic-ui-react';
+import {Button, Divider, Dropdown, Form, Grid, Header, Image, Message, Segment, Tab} from 'semantic-ui-react';
 import {login} from '../actions/login';
 import {handleAddUser} from '../actions/users';
 import SignUp from './SignUp';
 
 class Login extends Component {
   state = {
-    selectedUser: '',
     loggedIn: false,
     error: false,
-    showSignUpForm: false
+    showSignUpForm: false,
+    username: '',
+    password: ''
   };
 
   handleLogin = (e) => {
     e.preventDefault();
-    if (this.state.selectedUser !== '') {
+    if (this.state.username !== '') {
       this.login();
     } else {
       this.setState(() => ({error: true}));
@@ -24,13 +25,33 @@ class Login extends Component {
   };
 
   login = () => {
-    this.props.dispatch(login(this.state.selectedUser));
-    this.setState(() => ({loggedIn: true}));
+    const {users, dispatch} = this.props;
+    const {username, password} = this.state;
+    const user = users[username];
+    if (user && this.matchPasswords(user.password, password)) {
+      dispatch(login(username));
+      this.setState(() => ({loggedIn: true}));
+    } else {
+      this.setState(() => ({error: true}));
+    }
+  };
+
+  matchPasswords = (userPassword, password) => {
+    if (userPassword) {
+      return userPassword === password;
+    }
+    return true;
   };
 
   handleChangeUser = (e, {value}) => {
     e.preventDefault();
-    this.setState(() => ({selectedUser: value, error: value === ''}));
+    const {users} = this.props;
+
+    this.setState(() => ({
+      error: value === '',
+      username: value,
+      password: users[value].password || ''
+    }));
   };
 
   signUp = e => {
@@ -39,7 +60,7 @@ class Login extends Component {
   };
 
   existsUser = username => {
-    return this.props.logins[username] !== undefined;
+    return this.props.users[username] !== undefined;
   };
 
   handleCloseSignUpForm = () => {
@@ -51,39 +72,71 @@ class Login extends Component {
     this.setState(() => ({showSignUpForm: false, error: false}));
   };
 
-  optionItems = () => {
-    return this.props.logins.map(u =>
-      ({
-        key: u.id,
-        text: u.name,
-        value: u.id,
-        image: {avatar: true, src: `${u.avatarURL}`},
-      })
-    );
+  handleChangeText = e => {
+    const {name, value} = e.target;
+    this.setState(() => ({
+      [name]: value
+    }));
   };
-  renderLoginForm = () => {
+
+  optionItems = () => {
+    const {users} = this.props;
+    return Object.keys(users).map(id => {
+      const user = users[id];
+      return {
+        key: user.id,
+        text: user.name,
+        value: user.id,
+        image: {avatar: true, src: `${user.avatarURL}`},
+      };
+    });
+  };
+
+  panes = () => {
     const options = this.optionItems();
+    return [
+      {
+        menuItem: {key: 'users', icon: 'users', content: 'Sign in as'},
+        render: () =>
+          <Tab.Pane className='no-border'>
+            <Dropdown options={options}
+                      onChange={this.handleChangeUser}
+                      value={this.state.username}
+                      placeholder='Sign in as ...'
+                      icon='user' className='icon'
+                      labeled fluid selection pointing button/>
+          </Tab.Pane>
+      },
+      {
+        menuItem: 'Username and password',
+        render: () =>
+          <Tab.Pane className='no-border left aligned'>
+            <Form.Field required label='Username' control='input' placeholder='Your username'
+                        name='username' value={this.state.username} autoComplete='off'
+                        onChange={this.handleChangeText}/>
+            <Form.Field label='Password' control='input' type='password' placeholder='Enter your password'
+                        name='password' value={this.state.password} autoComplete='off'
+                        onChange={this.handleChangeText}/>
+          </Tab.Pane>
+      }
+    ];
+  };
+
+  renderLoginForm = () => {
     return (
       <div className='login-form'>
-
         <Grid textAlign='center' style={{height: '100%'}} verticalAlign='middle'>
           <Grid.Column style={{maxWidth: 450}}>
             <Image src='/images/logo.svg'/>
             <Header as='h3' textAlign='center'>
               <p>Sign in to Would you rather</p>
             </Header>
+            <Message negative hidden={!this.state.error}>
+              <Message.Header>Incorrect username or password</Message.Header>
+            </Message>
             <Form size='large' onSubmit={this.handleLogin}>
               <Segment>
-                <Dropdown options={options}
-                          onChange={this.handleChangeUser}
-                          placeholder='Sign in as ...'
-                          icon='user' className='icon'
-                          labeled fluid selection pointing button
-                />
-                {
-                  this.state.error
-                  && <Label basic color='red' pointing>Please select an user</Label>
-                }
+                <Tab menu={{secondary: true, pointing: true}} panes={this.panes()}/>
                 <Divider hidden/>
                 <Button type='submit' color='blue' fluid size='large'>
                   Sign in
@@ -103,24 +156,17 @@ class Login extends Component {
   };
 
   render() {
-    const {selectedUser, loggedIn} = this.state;
+    const {loggedIn} = this.state;
     const {from} = this.props.location.state || {from: {pathname: '/'}};
     return (
-      loggedIn && selectedUser !== '' ? <Redirect to={from}/> : this.renderLoginForm()
+      loggedIn ? <Redirect to={from}/> : this.renderLoginForm()
     );
   }
 }
 
 function mapStateToProps({users}) {
-  const logins = Object.keys(users).map(userId => {
-    return {
-      id: userId,
-      name: users[userId].name,
-      avatarURL: users[userId].avatarURL
-    };
-  });
   return {
-    logins
+    users
   };
 }
 
