@@ -25,8 +25,6 @@ class App extends Component {
     return (
       <Router>
         {
-          // this.props.loading === true
-          //   ? null :
           <Fragment>
             <LoadingBar/>
             <Switch>
