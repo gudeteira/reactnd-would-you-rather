@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
-import {handleAnswerQuestion} from '../../actions/questions';
+import {handleAnswerQuestion} from '../actions/questions';
 import Answered from './Answered';
 import {formatQuestion} from './Question';
 import UnAnswered from './UnAnswered';
