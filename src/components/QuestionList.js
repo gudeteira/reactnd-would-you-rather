@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 
 import {Card, Message, Tab} from 'semantic-ui-react';
 import {getMyQuestions} from '../actions/questions';
-import Question from './question/Question';
+import Question from './Question';
 
 class QuestionList extends Component {
 

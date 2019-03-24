@@ -1,8 +1,47 @@
+import Identicon from 'identicon.js';
+
+function avatar() {
+  const options = {
+    foreground: random_rgba(),
+    margin: 0.02,
+    size: 600,
+    format: 'png'
+  };
+  return `data:image/png;base64,${new Identicon(`${randHex(20)}`, options).toString()}`;
+}
+
+/**
+ * @see https://stackoverflow.com/a/23095818
+ * @returns {number[]}
+ */
+function random_rgba() {
+  const o = Math.round, r = Math.random, s = 255;
+  const res = [o(r() * s), o(r() * s), o(r() * s), 255];
+  return res;
+}
+
+/**
+ * @see https://codepen.io/code_monk/pen/FvpfI
+ * @param len
+ * @returns {string}
+ */
+function randHex(len) {
+  const maxlen = 16;
+  const min = Math.pow(16, Math.min(len, maxlen) - 1);
+  const max = Math.pow(16, Math.min(len, maxlen)) - 1;
+  const n = Math.floor(Math.random() * (max - min + 1)) + min;
+  let r = n.toString(16);
+  while (r.length < len) {
+    r = r + randHex(len - maxlen);
+  }
+  return r;
+}
+
 let users = {
   sarahedo: {
     id: 'sarahedo',
     name: 'Sarah Edo',
-    avatarURL: '/images/sarahedo.jpg',
+    avatarURL: avatar(),
     answers: {
       '8xf0y6ziyjabvozdd253nd': 'optionOne',
       '6ni6ok3ym7mf1p33lnez': 'optionTwo',
@@ -14,14 +53,14 @@ let users = {
   pedro: {
     id: 'pedro',
     name: 'Pedro Gude',
-    avatarURL: '/images/pedro.png',
+    avatarURL: avatar(),
     answers: {},
     questions: []
   },
   tylermcginnis: {
     id: 'tylermcginnis',
     name: 'Tyler McGinnis',
-    avatarURL: '/images/tylermcginnis.jpg',
+    avatarURL: avatar(),
     answers: {
       'vthrdm985a262al8qx3do': 'optionOne',
       'xj352vofupe1dqz9emx13r': 'optionTwo',
@@ -31,7 +70,7 @@ let users = {
   johndoe: {
     id: 'johndoe',
     name: 'John Doe',
-    avatarURL: '/images/johndoe.png',
+    avatarURL: avatar(),
     answers: {
       'xj352vofupe1dqz9emx13r': 'optionOne',
       'vthrdm985a262al8qx3do': 'optionTwo',
@@ -135,7 +174,11 @@ export function _getUsers() {
 export function _saveUser(newUser) {
   return new Promise((res) => {
     setTimeout(() => {
-      const savedUser = Object.assign({answers: {}, questions: []}, newUser);
+      const savedUser = Object.assign({
+        answers: {},
+        questions: [],
+        avatarURL: avatar(),
+      }, newUser);
       users = {
         ...users,
         [newUser.username]: savedUser

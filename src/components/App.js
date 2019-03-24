@@ -10,8 +10,8 @@ import Login from './Login';
 import Logout from './Logout';
 import NotFound from './NotFound';
 import PrivateRoute from './PrivateRoute';
-import NewQuestion from './question/NewQuestion';
-import QuestionDetails from './question/QuestionDetails';
+import NewQuestion from './NewQuestion';
+import QuestionDetails from './QuestionDetails';
 import QuestionList from './QuestionList';
 
 
@@ -25,8 +25,6 @@ class App extends Component {
     return (
       <Router>
         {
-          // this.props.loading === true
-          //   ? null :
           <Fragment>
             <LoadingBar/>
             <Switch>
