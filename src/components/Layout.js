@@ -70,11 +70,9 @@ class Layout extends Component {
                 </Menu.Item>
                 <Dropdown trigger={trigger} icon={null} pointing className='link item profile-trigger'>
                   <Dropdown.Menu>
-                    <Dropdown.Item as={NavLink} to='logout'>
-
+                    <Dropdown.Item as={NavLink} to='/logout'>
                       <Icon name='sign out'/>
                       Sign out
-
                     </Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
