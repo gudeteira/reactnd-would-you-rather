@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
@@ -5,6 +6,9 @@ import {Button, Form, Segment} from 'semantic-ui-react';
 import {handleAddQuestion} from '../actions/questions';
 
 class NewQuestion extends Component {
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired
+  };
   state = {
     optionOneText: '',
     optionTwoText: '',

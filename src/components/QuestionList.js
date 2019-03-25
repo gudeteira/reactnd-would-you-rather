@@ -1,11 +1,16 @@
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-
 import {Card, Message, Tab} from 'semantic-ui-react';
 import {getMyQuestions} from '../actions/questions';
+import AppPropTypes from '../utils/AppPropTypes';
 import Question from './Question';
 
 class QuestionList extends Component {
+  static propTypes = {
+    questions: PropTypes.object,
+    user: AppPropTypes.user.isRequired
+  };
 
   state = {
     loaded: false

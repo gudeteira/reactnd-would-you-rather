@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {NavLink} from 'react-router-dom';
 import {Container, Divider, Dropdown, Icon, Image, Menu, Segment, Visibility} from 'semantic-ui-react';
+import AppPropTypes from '../utils/AppPropTypes';
 import Notification from './Notification';
 
 const menuStyle = {
@@ -20,6 +21,11 @@ const fixedMenuStyle = {
 
 
 class Layout extends Component {
+
+  static propTypes = {
+    user: AppPropTypes.user.isRequired,
+  };
+
   state = {
     menuFixed: false,
     overlayFixed: false,

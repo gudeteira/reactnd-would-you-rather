@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Item} from 'semantic-ui-react';
@@ -5,6 +6,10 @@ import UserDetails from './UserDetails';
 
 
 class Leaderboard extends Component {
+  static propTypes = {
+    users: PropTypes.arrayOf(PropTypes.string)
+  };
+
   render() {
     const {users} = this.props;
     return (

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
@@ -7,6 +8,12 @@ import {handleAddUser} from '../actions/users';
 import SignUp from './SignUp';
 
 class Login extends Component {
+
+  static propTypes = {
+    users: PropTypes.object,
+    dispatch: PropTypes.func.isRequired
+  };
+
   state = {
     loggedIn: false,
     error: false,

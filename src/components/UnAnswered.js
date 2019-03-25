@@ -1,7 +1,13 @@
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {Button, Card, Icon, Image} from 'semantic-ui-react';
+import AppPropTypes from '../utils/AppPropTypes';
 
 export default class UnAnswered extends Component {
+  static propTypes = {
+    question: AppPropTypes.formattedQuestion.isRequired,
+    handleVote: PropTypes.func.isRequired
+  };
 
   handleVote = (e, answer) => {
     e.preventDefault();

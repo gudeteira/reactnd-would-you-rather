@@ -1,5 +1,6 @@
 import React from 'react';
 import {Image, Item, Segment, Statistic} from 'semantic-ui-react';
+import AppPropTypes from '../utils/AppPropTypes';
 
 const Answered = (props) => {
   const {question, currentUser} = props;
@@ -42,6 +43,11 @@ const Answered = (props) => {
       </Item.Group>
     </Segment>
   );
+};
+
+Answered.propTypes = {
+  question: AppPropTypes.formattedQuestion.isRequired,
+  currentUser: AppPropTypes.user.isRequired
 };
 
 export default Answered;

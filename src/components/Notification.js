@@ -1,10 +1,18 @@
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {Button, Modal, Message} from 'semantic-ui-react';
+import {Button, Message, Modal} from 'semantic-ui-react';
 import {clearError} from '../actions/error';
 import {ADD_QUESTION, ANSWER_QUESTION, removeAnswer, removeQuestion} from '../actions/questions';
 
 class Notification extends Component {
+  static propTypes = {
+    error: PropTypes.shape({
+      message: PropTypes.string,
+      action: PropTypes.string
+    }).isRequired,
+    dispatch: PropTypes.func.isRequired
+  };
 
   cancelAddQuestion = () => {
     this.closeNotification();

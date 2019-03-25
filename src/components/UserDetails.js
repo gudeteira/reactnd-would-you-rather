@@ -1,9 +1,21 @@
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Icon, Item, Statistic} from 'semantic-ui-react';
 
 
 class UserDetails extends Component {
+
+  static propTypes = {
+    user: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      avatar: PropTypes.string.isRequired,
+      answers: PropTypes.number.isRequired,
+      questions: PropTypes.number.isRequired,
+      ranking: PropTypes.number.isRequired
+    }).isRequired
+  };
+
   colors = {
     1: 'yellow',
     2: 'grey',

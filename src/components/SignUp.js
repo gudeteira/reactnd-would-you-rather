@@ -1,9 +1,18 @@
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {Button, Form, Label, Modal} from 'semantic-ui-react';
 import {isBlank} from '../utils/api';
 
 
 class SignUp extends Component {
+
+  static propTypes = {
+    handleSignUp: PropTypes.func.isRequired,
+    close: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired,
+    existsUser: PropTypes.func.isRequired
+  };
+
   state = {
     open: false,
     username: '',

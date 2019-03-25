@@ -1,10 +1,17 @@
+import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import {Card, Icon, Image} from 'semantic-ui-react';
 import {formatDate} from '../utils/api';
+import AppPropTypes from '../utils/AppPropTypes';
 
 class Question extends Component {
+  static propTypes = {
+    id: PropTypes.string.isRequired,
+    user: PropTypes.string.isRequired,
+    question: AppPropTypes.formattedQuestion
+  };
 
   summarize = text => {
     const words = text.split(' ');
@@ -29,7 +36,7 @@ class Question extends Component {
   }
 }
 
-export function formatQuestion(question, author = {}, login) {
+export function formatQuestion(question, author = {}) {
   const {timestamp} = question;
   const {name, avatarURL} = author;
   return {
